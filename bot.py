@@ -20,9 +20,10 @@ import os
 
 # Configure logging
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
+logger = logging.getLogger(__name__)
 
 # Print starting message
-print("Starting...")
+#print("Starting...")
 
 # Read configuration from environment variables
 APP_ID = config("APP_ID", default=0, cast=int)
@@ -30,6 +31,12 @@ API_HASH = config("API_HASH", default=None, cast=str)
 SESSION = config("SESSION", default="", cast=str)
 FROM_ = config("FROM_CHANNEL", default="", cast=str)
 TO_ = config("TO_CHANNEL", default="", cast=str)
+
+# Port number for Telegram bot web hook
+PORT = int(os.environ.get('PORT', '8443'))
+
+# Heroku Credentials
+APP_URL = os.environ.get("APP_URL")
 
 BLOCKED_TEXTS = config("BLOCKED_TEXTS", default="", cast=lambda x: [i.strip().lower() for i in x.split(',')])
 MEDIA_FORWARD_RESPONSE = config("MEDIA_FORWARD_RESPONSE", default="yes").lower()
@@ -77,5 +84,5 @@ async def sender_bH(event):
             print(f"Error forwarding message to channel {i}: {e}")
 
 # Run the bot
-print("Bot has started.")
+#print("Bot has started.")
 steallootdealUser.run_until_disconnected()
